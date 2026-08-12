@@ -248,6 +248,29 @@ async function loadRuntimeConfig(){
   }
 }
 
+async function verifyAdminAccess(key){
+  try{
+    const response=await fetch(backendUrl('/api/admin/verify'),{method:'POST',headers:key?{'X-Admin-Key':key}:{}});
+    const data=await response.json().catch(()=>({}));
+    return {ok:response.ok&&data?.ok,error:data?.error||'Verifica Admin non riuscita'};
+  }catch(error){return {ok:false,error:'Server Admin non raggiungibile'}}
+}
+
+async function openAdmin(){
+  let key='';try{key=sessionStorage.getItem(ADMIN_KEY_STORAGE)||''}catch{}
+  let verified=key?await verifyAdminAccess(key):{ok:false};
+  if(!verified.ok){
+    try{sessionStorage.removeItem(ADMIN_KEY_STORAGE)}catch{}
+    const entered=prompt('Inserisci ADMIN_SECRET per aprire la sezione Admin:');
+    if(!entered)return;
+    key=entered.trim();
+    verified=await verifyAdminAccess(key);
+    if(!verified.ok){toast(verified.error||'ADMIN_SECRET non valida');return}
+    try{sessionStorage.setItem(ADMIN_KEY_STORAGE,key)}catch{}
+  }
+  state.screen='admin';render();
+}
+
 const cloneAnime=source=>Object.fromEntries(Object.entries(source).map(([key,value])=>[key,{...value}]));
 const cloneRoster=source=>source.map(card=>({...card}));
 let ANIME=cloneAnime(DEFAULT_ANIME);
@@ -408,7 +431,7 @@ function bindGlobal(){
   const navigateAway=screen=>{if(state.online.mode==='online'){leaveOnlineRoom();clearInviteFromUrl()}state.screen=screen;render()};
   document.querySelectorAll('[data-nav="home"]').forEach(b=>b.onclick=()=>navigateAway('home'));
   document.querySelectorAll('[data-nav="rules"]').forEach(b=>b.onclick=()=>navigateAway('rules'));
-  document.querySelectorAll('[data-nav="admin"]').forEach(b=>b.onclick=()=>navigateAway('admin'));
+  document.querySelectorAll('[data-nav="admin"]').forEach(b=>b.onclick=()=>openAdmin());
   document.querySelectorAll('[data-nav="collection"],[data-nav="ranking"]').forEach(b=>b.onclick=()=>toast('Sezione prevista per una versione successiva'));
 }
 
@@ -439,7 +462,7 @@ function renderHome(){
   </div>`;
   bindGlobal();
   $('#newGame').onclick=()=>{state.screen='create';render()};
-  $('#homeAdmin').onclick=()=>{state.screen='admin';render()};
+  $('#homeAdmin').onclick=()=>openAdmin();
 }
 
 function draftCardCount(){return state.settings.players*state.settings.teamSize}

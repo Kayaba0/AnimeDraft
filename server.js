@@ -56,8 +56,7 @@ app.use((req, res, next) => {
 
 function adminWriteAllowed(req) {
   const secret = process.env.ADMIN_SECRET;
-  if (!secret) return true;
-  return req.get('x-admin-key') === secret;
+  return Boolean(secret) && req.get('x-admin-key') === secret;
 }
 
 app.get('/api/catalog', async (_req, res) => {
@@ -72,9 +71,18 @@ app.get('/api/catalog', async (_req, res) => {
 
 function adminGuard(req, res) {
   if (adminWriteAllowed(req)) return true;
+  if (!process.env.ADMIN_SECRET) {
+    res.status(503).json({ ok: false, error: 'ADMIN_SECRET non configurato sul server' });
+    return false;
+  }
   res.status(401).json({ ok: false, error: 'Chiave Admin non valida', requiresAdminKey: true });
   return false;
 }
+
+app.post('/api/admin/verify', (req, res) => {
+  if (!adminGuard(req, res)) return;
+  res.json({ ok: true });
+});
 
 async function sendAdminMutation(res, label, operation) {
   try {

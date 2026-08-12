@@ -24,7 +24,7 @@ In locale il frontend usa lo stesso server Node e non richiede configurazioni Ve
 ## Variabili Render
 
 - DATABASE_URL: stringa di connessione Neon.
-- ADMIN_SECRET: chiave per le modifiche Admin, consigliata.
+- ADMIN_SECRET: chiave obbligatoria per aprire e modificare l'area Admin.
 - CLIENT_ORIGIN: URL pubblico Vercel, per esempio https://anime-draft-three.vercel.app.
 - PORT: fornita automaticamente da Render.
 
