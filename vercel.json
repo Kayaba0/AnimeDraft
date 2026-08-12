@@ -3,7 +3,7 @@
   "framework": "express",
   "functions": {
     "server.js": {
-      "includeFiles": ["assets/**", "data/**"]
+      "includeFiles": "data/**"
     }
   }
 }
