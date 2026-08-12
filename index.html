@@ -19,7 +19,14 @@
   <div class="aurora aurora-b"></div>
   <main id="app"></main>
   <div id="toast" class="toast" aria-live="polite"></div>
-  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Il server Socket.IO viene avviato solo nell'ambiente Node locale.
+    // Su Vercel la pagina continua a funzionare senza tentare una richiesta
+    // che verrebbe risolta dall'HTML della home.
+    if (!window.location.hostname.endsWith('.vercel.app')) {
+      document.write('<script src="/socket.io/socket.io.js"><\/script>');
+    }
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
