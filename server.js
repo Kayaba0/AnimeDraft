@@ -623,7 +623,8 @@ setInterval(() => {
 
 // Avvia un vero server HTTP sia in locale sia su Vercel: Socket.IO deve
 // agganciarsi allo stesso server per gestire stanze e link di invito.
-server.listen(PORT, async () => {
+function startRealtimeServer(port = PORT) {
+  server.listen(port, async () => {
   console.log(`Anime Draft realtime server → http://localhost:${PORT}`);
   try {
     const persistence = await getPersistenceInfo();
@@ -635,6 +636,11 @@ server.listen(PORT, async () => {
   } catch (error) {
     console.error('Controllo persistenza non riuscito:', error.message);
   }
-});
+  });
+}
 
-module.exports = server;
+// L'avvio locale resta invariato. Su Vercel l'entrypoint server.ts richiama
+// questa stessa funzione, mantenendo Socket.IO agganciato all'HTTP server.
+if (require.main === module) startRealtimeServer();
+
+module.exports = { app, server, startRealtimeServer };
