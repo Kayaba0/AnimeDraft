@@ -258,8 +258,8 @@ async function verifyAdminAccess(key){
 
 function requestAdminSecret(){
   return new Promise(resolve=>{
-    const modal=mountAdminModal(`<div class="admin-modal-head"><div><div class="eyebrow">Accesso protetto</div><h3>Area Admin</h3><p>Inserisci la chiave configurata sul server per continuare.</p></div></div>
-      <label>ADMIN_SECRET<input id="adminSecretInput" type="password" autocomplete="current-password" placeholder="••••••••"></label>
+    const modal=mountAdminModal(`<div class="admin-modal-head"><div><div class="eyebrow">Accesso protetto</div><h3>Area Admin</h3></div></div>
+      <div class="admin-secret-input"><input id="adminSecretInput" type="password" autocomplete="current-password" aria-label="ADMIN_SECRET" placeholder="••••••••"></div>
       <div class="admin-modal-actions"><button class="secondary" id="cancelAdminAccess">ANNULLA</button><button class="primary" id="confirmAdminAccess">ACCEDI</button></div>`);
     const input=$('#adminSecretInput');
     let settled=false;
