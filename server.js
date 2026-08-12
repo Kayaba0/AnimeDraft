@@ -13,6 +13,7 @@ const {
 } = require('./catalog-store');
 
 const PORT = Number(process.env.PORT || 3000);
+const IS_VERCEL = Boolean(process.env.VERCEL);
 const PLAYER_COLORS = ['#8b5cf6','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316'];
 const BOT_NAMES = ['Akira','Mika','Ren','Yuna','Kai','Sora','Nami','Rei'];
 const rooms = new Map();
@@ -621,7 +622,9 @@ setInterval(() => {
   }
 }, 60_000).unref();
 
-server.listen(PORT, async () => {
+// Vercel invokes the exported Express app as a serverless function. Keep the
+// listening socket only for local development.
+if (!IS_VERCEL) server.listen(PORT, async () => {
   console.log(`Anime Draft realtime server → http://localhost:${PORT}`);
   try {
     const persistence = await getPersistenceInfo();
@@ -634,3 +637,5 @@ server.listen(PORT, async () => {
     console.error('Controllo persistenza non riuscito:', error.message);
   }
 });
+
+module.exports = app;
