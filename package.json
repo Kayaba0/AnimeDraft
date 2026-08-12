@@ -1,0 +1,23 @@
+{
+  "name": "anime-draft",
+  "version": "0.15.0",
+  "private": true,
+  "description": "Anime Draft realtime multiplayer prototype with Neon CRUD admin APIs and project-folder image assets",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "migrate:assets": "node scripts/migrate-inline-assets.js",
+    "sync:catalog": "node scripts/refresh-catalog.js",
+    "localize:cards": "node scripts/materialize-card-assets.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "dotenv": "^16.6.1"
+  }
+}

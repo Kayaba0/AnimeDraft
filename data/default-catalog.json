@@ -1,0 +1,1086 @@
+{
+  "anime": {
+    "naruto": {
+      "name": "Naruto",
+      "malId": 20,
+      "accent": "#ff9138",
+      "logo": "https://www.citypng.com/public/uploads/preview/naruto-shippuden-logo-transparent-background-701751694777597l432acg8r4.png?v=2026030511"
+    },
+    "onepiece": {
+      "name": "One Piece",
+      "malId": 21,
+      "accent": "#f1b44e",
+      "logo": "https://toppng.com/uploads/preview/file-history-one-piece-logo-11563071942adcognuldv.png"
+    },
+    "dragonball": {
+      "name": "Dragon Ball",
+      "malId": 30694,
+      "accent": "#ff7a2f",
+      "logo": "https://www.citypng.com/public/uploads/preview/dragon-ball-z-logo-download-png-7017516947067563zggkgegzs.png?v=2026032119"
+    },
+    "jjk": {
+      "name": "Jujutsu Kaisen",
+      "malId": 40748,
+      "accent": "#9a6cff",
+      "logo": "https://www.pngmart.com/files/23/Jujutsu-Kaisen-Logo-PNG.png"
+    },
+    "bleach": {
+      "name": "Bleach",
+      "malId": 269,
+      "accent": "#e6e6e6",
+      "logo": "https://toppng.com/public/uploads/preview/bleach-bleach-anime-logo-transparent-11563025094ksqaagis2s.png"
+    },
+    "hxh": {
+      "name": "Hunter × Hunter",
+      "malId": 11061,
+      "accent": "#58d98f",
+      "logo": "https://pngset.com/images/hunter-x-hunter-sticker-logo-vinyl-hunter-hunter-text-alphabet-crowd-bazaar-transparent-png-900850.png"
+    },
+    "aot": {
+      "name": "Attack on Titan",
+      "malId": 16498,
+      "accent": "#c16c5c",
+      "logo": "https://freepngimg.com/thumb/attack_on_titan/117253-on-attack-titan-logo-png-download-free.png"
+    },
+    "demon": {
+      "name": "Demon Slayer",
+      "malId": 38000,
+      "accent": "#ef3340",
+      "logo": "https://www.kindpng.com/picc/m/30-300084_logo-demon-slayer-demon-slayer-kimetsu-no-yaiba.png"
+    },
+    "fma": {
+      "name": "Fullmetal Alchemist: Brotherhood",
+      "malId": 5114,
+      "accent": "#c43d3d",
+      "logo": "https://image.pngaaa.com/411/1285411-middle.png"
+    },
+    "deathnote": {
+      "name": "Death Note",
+      "malId": 1535,
+      "accent": "#cfcfcf",
+      "logo": "https://www.vhv.rs/dpng/d/527-5277783_death-note-hd-png-download.png"
+    },
+    "codegeass": {
+      "name": "Code Geass",
+      "malId": 1575,
+      "accent": "#d9465f",
+      "logo": "https://image.pngaaa.com/116/1608116-middle.png"
+    },
+    "frieren": {
+      "name": "Frieren: Beyond Journey’s End",
+      "malId": 52991,
+      "accent": "#58b5a1",
+      "logo": "https://hyakkaryoran.sontyo.jp/anime/soso-frieren/logo.PNG"
+    }
+  },
+  "roster": [
+    {
+      "id": "card_001",
+      "anime": "naruto",
+      "name": "Naruto Uzumaki",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_001.jpg"
+    },
+    {
+      "id": "card_002",
+      "anime": "naruto",
+      "name": "Sasuke Uchiha",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_002.jpg"
+    },
+    {
+      "id": "card_003",
+      "anime": "naruto",
+      "name": "Kakashi Hatake",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_003.jpg"
+    },
+    {
+      "id": "card_004",
+      "anime": "naruto",
+      "name": "Itachi Uchiha",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_004.jpg"
+    },
+    {
+      "id": "card_005",
+      "anime": "naruto",
+      "name": "Madara Uchiha",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_005.jpg"
+    },
+    {
+      "id": "card_006",
+      "anime": "naruto",
+      "name": "Minato Namikaze",
+      "score": 83,
+      "image": "/assets/catalog/cards/card_006.jpg"
+    },
+    {
+      "id": "card_007",
+      "anime": "naruto",
+      "name": "Gaara",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_007.jpg"
+    },
+    {
+      "id": "card_008",
+      "anime": "naruto",
+      "name": "Shikamaru Nara",
+      "score": 45,
+      "image": "/assets/catalog/cards/card_008.jpg"
+    },
+    {
+      "id": "card_009",
+      "anime": "naruto",
+      "name": "Jiraiya",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_009.jpg"
+    },
+    {
+      "id": "card_010",
+      "anime": "naruto",
+      "name": "Tsunade",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_010.jpg"
+    },
+    {
+      "id": "card_011",
+      "anime": "naruto",
+      "name": "Orochimaru",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_011.jpg"
+    },
+    {
+      "id": "card_012",
+      "anime": "naruto",
+      "name": "Rock Lee",
+      "score": 31,
+      "image": "/assets/catalog/cards/card_012.jpg"
+    },
+    {
+      "id": "card_013",
+      "anime": "onepiece",
+      "name": "Monkey D. Luffy",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_013.jpg"
+    },
+    {
+      "id": "card_014",
+      "anime": "onepiece",
+      "name": "Roronoa Zoro",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_014.jpg"
+    },
+    {
+      "id": "card_015",
+      "anime": "onepiece",
+      "name": "Sanji",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_015.jpg"
+    },
+    {
+      "id": "card_016",
+      "anime": "onepiece",
+      "name": "Trafalgar Law",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_016.jpg"
+    },
+    {
+      "id": "card_017",
+      "anime": "onepiece",
+      "name": "Shanks",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_017.jpg"
+    },
+    {
+      "id": "card_018",
+      "anime": "onepiece",
+      "name": "Marshall D. Teach",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_018.jpg"
+    },
+    {
+      "id": "card_019",
+      "anime": "onepiece",
+      "name": "Nami",
+      "score": 34,
+      "image": "/assets/catalog/cards/card_019.jpg"
+    },
+    {
+      "id": "card_020",
+      "anime": "onepiece",
+      "name": "Nico Robin",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_020.jpg"
+    },
+    {
+      "id": "card_021",
+      "anime": "onepiece",
+      "name": "Usopp",
+      "score": 17,
+      "image": "/assets/catalog/cards/card_021.jpg"
+    },
+    {
+      "id": "card_022",
+      "anime": "onepiece",
+      "name": "Tony Tony Chopper",
+      "score": 24,
+      "image": "/assets/catalog/cards/card_022.jpg"
+    },
+    {
+      "id": "card_023",
+      "anime": "onepiece",
+      "name": "Boa Hancock",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_023.jpg"
+    },
+    {
+      "id": "card_024",
+      "anime": "onepiece",
+      "name": "Sabo",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_024.jpg"
+    },
+    {
+      "id": "card_025",
+      "anime": "dragonball",
+      "name": "Goku",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_025.jpg"
+    },
+    {
+      "id": "card_026",
+      "anime": "dragonball",
+      "name": "Vegeta",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_026.jpg"
+    },
+    {
+      "id": "card_027",
+      "anime": "dragonball",
+      "name": "Gohan",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_027.jpg"
+    },
+    {
+      "id": "card_028",
+      "anime": "dragonball",
+      "name": "Piccolo",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_028.jpg"
+    },
+    {
+      "id": "card_029",
+      "anime": "dragonball",
+      "name": "Frieza",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_029.jpg"
+    },
+    {
+      "id": "card_030",
+      "anime": "dragonball",
+      "name": "Goku Black",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_030.jpg"
+    },
+    {
+      "id": "card_031",
+      "anime": "dragonball",
+      "name": "Jiren",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_031.jpg"
+    },
+    {
+      "id": "card_032",
+      "anime": "dragonball",
+      "name": "Trunks",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_032.jpg"
+    },
+    {
+      "id": "card_033",
+      "anime": "dragonball",
+      "name": "Krillin",
+      "score": 27,
+      "image": "/assets/catalog/cards/card_033.jpg"
+    },
+    {
+      "id": "card_034",
+      "anime": "dragonball",
+      "name": "Android 18",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_034.jpg"
+    },
+    {
+      "id": "card_035",
+      "anime": "dragonball",
+      "name": "Broly",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_035.jpg"
+    },
+    {
+      "id": "card_036",
+      "anime": "dragonball",
+      "name": "Beerus",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_036.jpg"
+    },
+    {
+      "id": "card_037",
+      "anime": "jjk",
+      "name": "Satoru Gojo",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_037.jpg"
+    },
+    {
+      "id": "card_038",
+      "anime": "jjk",
+      "name": "Ryomen Sukuna",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_038.jpg"
+    },
+    {
+      "id": "card_039",
+      "anime": "jjk",
+      "name": "Yuta Okkotsu",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_039.jpg"
+    },
+    {
+      "id": "card_040",
+      "anime": "jjk",
+      "name": "Yuji Itadori",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_040.jpg"
+    },
+    {
+      "id": "card_041",
+      "anime": "jjk",
+      "name": "Megumi Fushiguro",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_041.jpg"
+    },
+    {
+      "id": "card_042",
+      "anime": "jjk",
+      "name": "Maki Zenin",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_042.jpg"
+    },
+    {
+      "id": "card_043",
+      "anime": "jjk",
+      "name": "Toji Fushiguro",
+      "score": 83,
+      "image": "/assets/catalog/cards/card_043.jpg"
+    },
+    {
+      "id": "card_044",
+      "anime": "jjk",
+      "name": "Kento Nanami",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_044.jpg"
+    },
+    {
+      "id": "card_045",
+      "anime": "jjk",
+      "name": "Mahito",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_045.jpg"
+    },
+    {
+      "id": "card_046",
+      "anime": "jjk",
+      "name": "Suguru Geto",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_046.jpg"
+    },
+    {
+      "id": "card_047",
+      "anime": "jjk",
+      "name": "Nobara Kugisaki",
+      "score": 34,
+      "image": "/assets/catalog/cards/card_047.jpg"
+    },
+    {
+      "id": "card_048",
+      "anime": "jjk",
+      "name": "Aoi Todo",
+      "score": 48,
+      "image": "/assets/catalog/cards/card_048.jpg"
+    },
+    {
+      "id": "card_049",
+      "anime": "bleach",
+      "name": "Ichigo Kurosaki",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_049.jpg"
+    },
+    {
+      "id": "card_050",
+      "anime": "bleach",
+      "name": "Sousuke Aizen",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_050.jpg"
+    },
+    {
+      "id": "card_051",
+      "anime": "bleach",
+      "name": "Rukia Kuchiki",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_051.jpg"
+    },
+    {
+      "id": "card_052",
+      "anime": "bleach",
+      "name": "Byakuya Kuchiki",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_052.jpg"
+    },
+    {
+      "id": "card_053",
+      "anime": "bleach",
+      "name": "Kenpachi Zaraki",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_053.jpg"
+    },
+    {
+      "id": "card_054",
+      "anime": "bleach",
+      "name": "Toshiro Hitsugaya",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_054.jpg"
+    },
+    {
+      "id": "card_055",
+      "anime": "bleach",
+      "name": "Kisuke Urahara",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_055.jpg"
+    },
+    {
+      "id": "card_056",
+      "anime": "bleach",
+      "name": "Yoruichi Shihouin",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_056.jpg"
+    },
+    {
+      "id": "card_057",
+      "anime": "bleach",
+      "name": "Renji Abarai",
+      "score": 45,
+      "image": "/assets/catalog/cards/card_057.jpg"
+    },
+    {
+      "id": "card_058",
+      "anime": "bleach",
+      "name": "Orihime Inoue",
+      "score": 31,
+      "image": "/assets/catalog/cards/card_058.jpg"
+    },
+    {
+      "id": "card_059",
+      "anime": "bleach",
+      "name": "Ulquiorra Cifer",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_059.jpg"
+    },
+    {
+      "id": "card_060",
+      "anime": "bleach",
+      "name": "Grimmjow Jaegerjaquez",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_060.jpg"
+    },
+    {
+      "id": "card_061",
+      "anime": "hxh",
+      "name": "Gon Freecss",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_061.jpg"
+    },
+    {
+      "id": "card_062",
+      "anime": "hxh",
+      "name": "Killua Zoldyck",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_062.jpg"
+    },
+    {
+      "id": "card_063",
+      "anime": "hxh",
+      "name": "Kurapika",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_063.jpg"
+    },
+    {
+      "id": "card_064",
+      "anime": "hxh",
+      "name": "Leorio Paradinight",
+      "score": 10,
+      "image": "/assets/catalog/cards/card_064.jpg"
+    },
+    {
+      "id": "card_065",
+      "anime": "hxh",
+      "name": "Hisoka Morow",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_065.jpg"
+    },
+    {
+      "id": "card_066",
+      "anime": "hxh",
+      "name": "Chrollo Lucilfer",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_066.jpg"
+    },
+    {
+      "id": "card_067",
+      "anime": "hxh",
+      "name": "Meruem",
+      "score": 100,
+      "image": "/assets/catalog/cards/card_067.jpg"
+    },
+    {
+      "id": "card_068",
+      "anime": "hxh",
+      "name": "Isaac Netero",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_068.jpg"
+    },
+    {
+      "id": "card_069",
+      "anime": "hxh",
+      "name": "Neferpitou",
+      "score": 83,
+      "image": "/assets/catalog/cards/card_069.jpg"
+    },
+    {
+      "id": "card_070",
+      "anime": "hxh",
+      "name": "Illumi Zoldyck",
+      "score": 62,
+      "image": "/assets/catalog/cards/card_070.jpg"
+    },
+    {
+      "id": "card_071",
+      "anime": "hxh",
+      "name": "Biscuit Krueger",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_071.jpg"
+    },
+    {
+      "id": "card_072",
+      "anime": "hxh",
+      "name": "Kite",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_072.jpg"
+    },
+    {
+      "id": "card_073",
+      "anime": "aot",
+      "name": "Eren Yeager",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_073.jpg"
+    },
+    {
+      "id": "card_074",
+      "anime": "aot",
+      "name": "Levi Ackerman",
+      "score": 83,
+      "image": "/assets/catalog/cards/card_074.jpg"
+    },
+    {
+      "id": "card_075",
+      "anime": "aot",
+      "name": "Mikasa Ackerman",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_075.jpg"
+    },
+    {
+      "id": "card_076",
+      "anime": "aot",
+      "name": "Armin Arlert",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_076.jpg"
+    },
+    {
+      "id": "card_077",
+      "anime": "aot",
+      "name": "Erwin Smith",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_077.jpg"
+    },
+    {
+      "id": "card_078",
+      "anime": "aot",
+      "name": "Reiner Braun",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_078.jpg"
+    },
+    {
+      "id": "card_079",
+      "anime": "aot",
+      "name": "Zeke Yeager",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_079.jpg"
+    },
+    {
+      "id": "card_080",
+      "anime": "aot",
+      "name": "Annie Leonhart",
+      "score": 62,
+      "image": "/assets/catalog/cards/card_080.jpg"
+    },
+    {
+      "id": "card_081",
+      "anime": "aot",
+      "name": "Hange Zoe",
+      "score": 45,
+      "image": "/assets/catalog/cards/card_081.jpg"
+    },
+    {
+      "id": "card_082",
+      "anime": "aot",
+      "name": "Jean Kirstein",
+      "score": 31,
+      "image": "/assets/catalog/cards/card_082.jpg"
+    },
+    {
+      "id": "card_083",
+      "anime": "aot",
+      "name": "Pieck Finger",
+      "score": 38,
+      "image": "/assets/catalog/cards/card_083.jpg"
+    },
+    {
+      "id": "card_084",
+      "anime": "aot",
+      "name": "Bertholdt Hoover",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_084.jpg"
+    },
+    {
+      "id": "card_085",
+      "anime": "demon",
+      "name": "Tanjiro Kamado",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_085.jpg"
+    },
+    {
+      "id": "card_086",
+      "anime": "demon",
+      "name": "Nezuko Kamado",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_086.jpg"
+    },
+    {
+      "id": "card_087",
+      "anime": "demon",
+      "name": "Zenitsu Agatsuma",
+      "score": 45,
+      "image": "/assets/catalog/cards/card_087.jpg"
+    },
+    {
+      "id": "card_088",
+      "anime": "demon",
+      "name": "Inosuke Hashibira",
+      "score": 48,
+      "image": "/assets/catalog/cards/card_088.jpg"
+    },
+    {
+      "id": "card_089",
+      "anime": "demon",
+      "name": "Giyu Tomioka",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_089.jpg"
+    },
+    {
+      "id": "card_090",
+      "anime": "demon",
+      "name": "Kyojuro Rengoku",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_090.jpg"
+    },
+    {
+      "id": "card_091",
+      "anime": "demon",
+      "name": "Tengen Uzui",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_091.jpg"
+    },
+    {
+      "id": "card_092",
+      "anime": "demon",
+      "name": "Muichiro Tokito",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_092.jpg"
+    },
+    {
+      "id": "card_093",
+      "anime": "demon",
+      "name": "Mitsuri Kanroji",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_093.jpg"
+    },
+    {
+      "id": "card_094",
+      "anime": "demon",
+      "name": "Akaza",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_094.jpg"
+    },
+    {
+      "id": "card_095",
+      "anime": "demon",
+      "name": "Doma",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_095.jpg"
+    },
+    {
+      "id": "card_096",
+      "anime": "demon",
+      "name": "Muzan Kibutsuji",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_096.jpg"
+    },
+    {
+      "id": "card_097",
+      "anime": "fma",
+      "name": "Edward Elric",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_097.jpg"
+    },
+    {
+      "id": "card_098",
+      "anime": "fma",
+      "name": "Alphonse Elric",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_098.jpg"
+    },
+    {
+      "id": "card_099",
+      "anime": "fma",
+      "name": "Roy Mustang",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_099.jpg"
+    },
+    {
+      "id": "card_100",
+      "anime": "fma",
+      "name": "Riza Hawkeye",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_100.jpg"
+    },
+    {
+      "id": "card_101",
+      "anime": "fma",
+      "name": "Scar",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_101.jpg"
+    },
+    {
+      "id": "card_102",
+      "anime": "fma",
+      "name": "King Bradley",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_102.jpg"
+    },
+    {
+      "id": "card_103",
+      "anime": "fma",
+      "name": "Van Hohenheim",
+      "score": 83,
+      "image": "/assets/catalog/cards/card_103.jpg"
+    },
+    {
+      "id": "card_104",
+      "anime": "fma",
+      "name": "Winry Rockbell",
+      "score": 24,
+      "image": "/assets/catalog/cards/card_104.jpg"
+    },
+    {
+      "id": "card_105",
+      "anime": "fma",
+      "name": "Izumi Curtis",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_105.jpg"
+    },
+    {
+      "id": "card_106",
+      "anime": "fma",
+      "name": "Greed",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_106.jpg"
+    },
+    {
+      "id": "card_107",
+      "anime": "fma",
+      "name": "Ling Yao",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_107.jpg"
+    },
+    {
+      "id": "card_108",
+      "anime": "fma",
+      "name": "Alex Louis Armstrong",
+      "score": 48,
+      "image": "/assets/catalog/cards/card_108.jpg"
+    },
+    {
+      "id": "card_109",
+      "anime": "deathnote",
+      "name": "Light Yagami",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_109.jpg"
+    },
+    {
+      "id": "card_110",
+      "anime": "deathnote",
+      "name": "L Lawliet",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_110.jpg"
+    },
+    {
+      "id": "card_111",
+      "anime": "deathnote",
+      "name": "Ryuk",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_111.jpg"
+    },
+    {
+      "id": "card_112",
+      "anime": "deathnote",
+      "name": "Misa Amane",
+      "score": 34,
+      "image": "/assets/catalog/cards/card_112.jpg"
+    },
+    {
+      "id": "card_113",
+      "anime": "deathnote",
+      "name": "Near",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_113.jpg"
+    },
+    {
+      "id": "card_114",
+      "anime": "deathnote",
+      "name": "Mello",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_114.jpg"
+    },
+    {
+      "id": "card_115",
+      "anime": "deathnote",
+      "name": "Soichiro Yagami",
+      "score": 38,
+      "image": "/assets/catalog/cards/card_115.jpg"
+    },
+    {
+      "id": "card_116",
+      "anime": "deathnote",
+      "name": "Touta Matsuda",
+      "score": 13,
+      "image": "/assets/catalog/cards/card_116.jpg"
+    },
+    {
+      "id": "card_117",
+      "anime": "deathnote",
+      "name": "Rem",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_117.jpg"
+    },
+    {
+      "id": "card_118",
+      "anime": "deathnote",
+      "name": "Teru Mikami",
+      "score": 48,
+      "image": "/assets/catalog/cards/card_118.jpg"
+    },
+    {
+      "id": "card_119",
+      "anime": "deathnote",
+      "name": "Kiyomi Takada",
+      "score": 27,
+      "image": "/assets/catalog/cards/card_119.jpg"
+    },
+    {
+      "id": "card_120",
+      "anime": "deathnote",
+      "name": "Watari",
+      "score": 31,
+      "image": "/assets/catalog/cards/card_120.jpg"
+    },
+    {
+      "id": "card_121",
+      "anime": "codegeass",
+      "name": "Lelouch Lamperouge",
+      "score": 93,
+      "image": "/assets/catalog/cards/card_121.jpg"
+    },
+    {
+      "id": "card_122",
+      "anime": "codegeass",
+      "name": "C.C.",
+      "score": 76,
+      "image": "/assets/catalog/cards/card_122.jpg"
+    },
+    {
+      "id": "card_123",
+      "anime": "codegeass",
+      "name": "Suzaku Kururugi",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_123.jpg"
+    },
+    {
+      "id": "card_124",
+      "anime": "codegeass",
+      "name": "Kallen Stadtfeld",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_124.jpg"
+    },
+    {
+      "id": "card_125",
+      "anime": "codegeass",
+      "name": "Nunnally Lamperouge",
+      "score": 24,
+      "image": "/assets/catalog/cards/card_125.jpg"
+    },
+    {
+      "id": "card_126",
+      "anime": "codegeass",
+      "name": "Shirley Fenette",
+      "score": 17,
+      "image": "/assets/catalog/cards/card_126.jpg"
+    },
+    {
+      "id": "card_127",
+      "anime": "codegeass",
+      "name": "Rolo Lamperouge",
+      "score": 48,
+      "image": "/assets/catalog/cards/card_127.jpg"
+    },
+    {
+      "id": "card_128",
+      "anime": "codegeass",
+      "name": "Euphemia li Britannia",
+      "score": 38,
+      "image": "/assets/catalog/cards/card_128.jpg"
+    },
+    {
+      "id": "card_129",
+      "anime": "codegeass",
+      "name": "Schneizel el Britannia",
+      "score": 79,
+      "image": "/assets/catalog/cards/card_129.jpg"
+    },
+    {
+      "id": "card_130",
+      "anime": "codegeass",
+      "name": "Jeremiah Gottwald",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_130.jpg"
+    },
+    {
+      "id": "card_131",
+      "anime": "codegeass",
+      "name": "Lloyd Asplund",
+      "score": 31,
+      "image": "/assets/catalog/cards/card_131.jpg"
+    },
+    {
+      "id": "card_132",
+      "anime": "codegeass",
+      "name": "Charles zi Britannia",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_132.jpg"
+    },
+    {
+      "id": "card_133",
+      "anime": "frieren",
+      "name": "Frieren",
+      "score": 86,
+      "image": "/assets/catalog/cards/card_133.jpg"
+    },
+    {
+      "id": "card_134",
+      "anime": "frieren",
+      "name": "Fern",
+      "score": 62,
+      "image": "/assets/catalog/cards/card_134.jpg"
+    },
+    {
+      "id": "card_135",
+      "anime": "frieren",
+      "name": "Stark",
+      "score": 55,
+      "image": "/assets/catalog/cards/card_135.jpg"
+    },
+    {
+      "id": "card_136",
+      "anime": "frieren",
+      "name": "Himmel",
+      "score": 69,
+      "image": "/assets/catalog/cards/card_136.jpg"
+    },
+    {
+      "id": "card_137",
+      "anime": "frieren",
+      "name": "Heiter",
+      "score": 41,
+      "image": "/assets/catalog/cards/card_137.jpg"
+    },
+    {
+      "id": "card_138",
+      "anime": "frieren",
+      "name": "Eisen",
+      "score": 65,
+      "image": "/assets/catalog/cards/card_138.jpg"
+    },
+    {
+      "id": "card_139",
+      "anime": "frieren",
+      "name": "Flamme",
+      "score": 90,
+      "image": "/assets/catalog/cards/card_139.jpg"
+    },
+    {
+      "id": "card_140",
+      "anime": "frieren",
+      "name": "Serie",
+      "score": 97,
+      "image": "/assets/catalog/cards/card_140.jpg"
+    },
+    {
+      "id": "card_141",
+      "anime": "frieren",
+      "name": "Aura",
+      "score": 72,
+      "image": "/assets/catalog/cards/card_141.jpg"
+    },
+    {
+      "id": "card_142",
+      "anime": "frieren",
+      "name": "Denken",
+      "score": 52,
+      "image": "/assets/catalog/cards/card_142.jpg"
+    },
+    {
+      "id": "card_143",
+      "anime": "frieren",
+      "name": "Übel",
+      "score": 58,
+      "image": "/assets/catalog/cards/card_143.jpg"
+    },
+    {
+      "id": "card_144",
+      "anime": "frieren",
+      "name": "Kraft",
+      "score": 45,
+      "image": "/assets/catalog/cards/card_144.jpg"
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "anime": {
+    "aot": {
+      "name": "Attack on Titan",
+      "accent": "#c16c5c",
+      "logo": "assets/logos/aot.webp",
+      "malId": 16498
+    },
+    "bleach": {
+      "name": "Bleach",
+      "accent": "#e6e6e6",
+      "logo": "assets/logos/bleach.png",
+      "malId": 269
+    },
+    "demon": {
+      "name": "Demon Slayer",
+      "accent": "#ef3340",
+      "logo": "assets/logos/demon.webp",
+      "malId": 38000
+    },
+    "dragonball": {
+      "name": "Dragon Ball",
+      "accent": "#ff7a2f",
+      "logo": "assets/logos/dragonball.webp",
+      "malId": 30694
+    },
+    "hxh": {
+      "name": "Hunter × Hunter",
+      "accent": "#58d98f",
+      "logo": "assets/logos/hxh.png",
+      "malId": 11061
+    },
+    "jjk": {
+      "name": "Jujutsu Kaisen",
+      "accent": "#9a6cff",
+      "logo": "assets/logos/jjk.webp",
+      "malId": 40748
+    },
+    "naruto": {
+      "name": "Naruto",
+      "accent": "#ff9138",
+      "logo": "assets/logos/naruto.webp",
+      "malId": 20
+    },
+    "onepiece": {
+      "name": "One Piece",
+      "accent": "#f1b44e",
+      "logo": "assets/logos/onepiece.webp",
+      "malId": 21
+    }
+  },
+  "roster": [
+    {
+      "id": "c93",
+      "anime": "demon",
+      "name": "Akaza",
+      "score": 94,
+      "image": null
+    },
+    {
+      "id": "c33",
+      "anime": "dragonball",
+      "name": "Android 18",
+      "score": 88,
+      "image": null
+    },
+    {
+      "id": "c79",
+      "anime": "aot",
+      "name": "Annie Leonhart",
+      "score": 87,
+      "image": null
+    },
+    {
+      "id": "c47",
+      "anime": "jjk",
+      "name": "Aoi Todo",
+      "score": 83,
+      "image": null
+    },
+    {
+      "id": "c75",
+      "anime": "aot",
+      "name": "Armin Arlert",
+      "score": 85,
+      "image": null
+    },
+    {
+      "id": "c35",
+      "anime": "dragonball",
+      "name": "Beerus",
+      "score": 100,
+      "image": null
+    },
+    {
+      "id": "c83",
+      "anime": "aot",
+      "name": "Bertholdt Hoover",
+      "score": 86,
+      "image": null
+    },
+    {
+      "id": "c70",
+      "anime": "hxh",
+      "name": "Biscuit Krueger",
+      "score": 87,
+      "image": null
+    },
+    {
+      "id": "c22",
+      "anime": "onepiece",
+      "name": "Boa Hancock",
+      "score": 87,
+      "image": null
+    },
+    {
+      "id": "c34",
+      "anime": "dragonball",
+      "name": "Broly",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c51",
+      "anime": "bleach",
+      "name": "Byakuya Kuchiki",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c29",
+      "anime": "dragonball",
+      "name": "Cell",
+      "score": 97,
+      "image": null
+    },
+    {
+      "id": "c65",
+      "anime": "hxh",
+      "name": "Chrollo Lucilfer",
+      "score": 95,
+      "image": null
+    },
+    {
+      "id": "c94",
+      "anime": "demon",
+      "name": "Doma",
+      "score": 96,
+      "image": null
+    },
+    {
+      "id": "c72",
+      "anime": "aot",
+      "name": "Eren Yeager",
+      "score": 96,
+      "image": null
+    },
+    {
+      "id": "c76",
+      "anime": "aot",
+      "name": "Erwin Smith",
+      "score": 88,
+      "image": null
+    },
+    {
+      "id": "c28",
+      "anime": "dragonball",
+      "name": "Frieza",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c6",
+      "anime": "naruto",
+      "name": "Gaara",
+      "score": 86,
+      "image": "data:image/webp;base64,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"
+    },
+    {
+      "id": "c88",
+      "anime": "demon",
+      "name": "Giyu Tomioka",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c26",
+      "anime": "dragonball",
+      "name": "Gohan",
+      "score": 97,
+      "image": null
+    },
+    {
+      "id": "c24",
+      "anime": "dragonball",
+      "name": "Goku",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c60",
+      "anime": "hxh",
+      "name": "Gon Freecss",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c59",
+      "anime": "bleach",
+      "name": "Grimmjow Jaegerjaquez",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c80",
+      "anime": "aot",
+      "name": "Hange Zoe",
+      "score": 82,
+      "image": null
+    },
+    {
+      "id": "c64",
+      "anime": "hxh",
+      "name": "Hisoka Morow",
+      "score": 92,
+      "image": null
+    },
+    {
+      "id": "c48",
+      "anime": "bleach",
+      "name": "Ichigo Kurosaki",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c69",
+      "anime": "hxh",
+      "name": "Illumi Zoldyck",
+      "score": 88,
+      "image": null
+    },
+    {
+      "id": "c87",
+      "anime": "demon",
+      "name": "Inosuke Hashibira",
+      "score": 82,
+      "image": null
+    },
+    {
+      "id": "c67",
+      "anime": "hxh",
+      "name": "Isaac Netero",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c3",
+      "anime": "naruto",
+      "name": "Itachi Uchiha",
+      "score": 93,
+      "image": "/assets/uploads/cards/c3-msor6j56.webp"
+    },
+    {
+      "id": "c81",
+      "anime": "aot",
+      "name": "Jean Kirstein",
+      "score": 78,
+      "image": null
+    },
+    {
+      "id": "c8",
+      "anime": "naruto",
+      "name": "Jiraiya",
+      "score": 89,
+      "image": "/assets/uploads/cards/c8-msor6tm5.webp"
+    },
+    {
+      "id": "c2",
+      "anime": "naruto",
+      "name": "Kakashi Hatake",
+      "score": 91,
+      "image": "/assets/uploads/cards/c2-msor72sh.webp"
+    },
+    {
+      "id": "c52",
+      "anime": "bleach",
+      "name": "Kenpachi Zaraki",
+      "score": 95,
+      "image": null
+    },
+    {
+      "id": "c43",
+      "anime": "jjk",
+      "name": "Kento Nanami",
+      "score": 84,
+      "image": null
+    },
+    {
+      "id": "c61",
+      "anime": "hxh",
+      "name": "Killua Zoldyck",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c54",
+      "anime": "bleach",
+      "name": "Kisuke Urahara",
+      "score": 93,
+      "image": null
+    },
+    {
+      "id": "c71",
+      "anime": "hxh",
+      "name": "Kite",
+      "score": 86,
+      "image": null
+    },
+    {
+      "id": "c32",
+      "anime": "dragonball",
+      "name": "Krillin",
+      "score": 76,
+      "image": null
+    },
+    {
+      "id": "c62",
+      "anime": "hxh",
+      "name": "Kurapika",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c89",
+      "anime": "demon",
+      "name": "Kyojuro Rengoku",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c63",
+      "anime": "hxh",
+      "name": "Leorio Paradinight",
+      "score": 70,
+      "image": null
+    },
+    {
+      "id": "c73",
+      "anime": "aot",
+      "name": "Levi Ackerman",
+      "score": 93,
+      "image": null
+    },
+    {
+      "id": "c4",
+      "anime": "naruto",
+      "name": "Madara Uchiha",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c44",
+      "anime": "jjk",
+      "name": "Mahito",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c30",
+      "anime": "dragonball",
+      "name": "Majin Buu",
+      "score": 96,
+      "image": null
+    },
+    {
+      "id": "c41",
+      "anime": "jjk",
+      "name": "Maki Zenin",
+      "score": 87,
+      "image": null
+    },
+    {
+      "id": "c17",
+      "anime": "onepiece",
+      "name": "Marshall D. Teach",
+      "score": 97,
+      "image": null
+    },
+    {
+      "id": "c40",
+      "anime": "jjk",
+      "name": "Megumi Fushiguro",
+      "score": 86,
+      "image": null
+    },
+    {
+      "id": "c66",
+      "anime": "hxh",
+      "name": "Meruem",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c74",
+      "anime": "aot",
+      "name": "Mikasa Ackerman",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c5",
+      "anime": "naruto",
+      "name": "Minato Namikaze",
+      "score": 92,
+      "image": null
+    },
+    {
+      "id": "c92",
+      "anime": "demon",
+      "name": "Mitsuri Kanroji",
+      "score": 86,
+      "image": null
+    },
+    {
+      "id": "c12",
+      "anime": "onepiece",
+      "name": "Monkey D. Luffy",
+      "score": 96,
+      "image": null
+    },
+    {
+      "id": "c91",
+      "anime": "demon",
+      "name": "Muichiro Tokito",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c95",
+      "anime": "demon",
+      "name": "Muzan Kibutsuji",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c18",
+      "anime": "onepiece",
+      "name": "Nami",
+      "score": 76,
+      "image": null
+    },
+    {
+      "id": "c0",
+      "anime": "naruto",
+      "name": "Naruto Uzumaki",
+      "score": 95,
+      "image": null
+    },
+    {
+      "id": "c68",
+      "anime": "hxh",
+      "name": "Neferpitou",
+      "score": 94,
+      "image": null
+    },
+    {
+      "id": "c85",
+      "anime": "demon",
+      "name": "Nezuko Kamado",
+      "score": 86,
+      "image": null
+    },
+    {
+      "id": "c19",
+      "anime": "onepiece",
+      "name": "Nico Robin",
+      "score": 82,
+      "image": null
+    },
+    {
+      "id": "c46",
+      "anime": "jjk",
+      "name": "Nobara Kugisaki",
+      "score": 79,
+      "image": null
+    },
+    {
+      "id": "c57",
+      "anime": "bleach",
+      "name": "Orihime Inoue",
+      "score": 78,
+      "image": null
+    },
+    {
+      "id": "c10",
+      "anime": "naruto",
+      "name": "Orochimaru",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c27",
+      "anime": "dragonball",
+      "name": "Piccolo",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c82",
+      "anime": "aot",
+      "name": "Pieck Finger",
+      "score": 80,
+      "image": null
+    },
+    {
+      "id": "c77",
+      "anime": "aot",
+      "name": "Reiner Braun",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c56",
+      "anime": "bleach",
+      "name": "Renji Abarai",
+      "score": 82,
+      "image": null
+    },
+    {
+      "id": "c11",
+      "anime": "naruto",
+      "name": "Rock Lee",
+      "score": 78,
+      "image": null
+    },
+    {
+      "id": "c13",
+      "anime": "onepiece",
+      "name": "Roronoa Zoro",
+      "score": 93,
+      "image": null
+    },
+    {
+      "id": "c50",
+      "anime": "bleach",
+      "name": "Rukia Kuchiki",
+      "score": 84,
+      "image": null
+    },
+    {
+      "id": "c37",
+      "anime": "jjk",
+      "name": "Ryomen Sukuna",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c23",
+      "anime": "onepiece",
+      "name": "Sabo",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c14",
+      "anime": "onepiece",
+      "name": "Sanji",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c1",
+      "anime": "naruto",
+      "name": "Sasuke Uchiha",
+      "score": 94,
+      "image": null
+    },
+    {
+      "id": "c36",
+      "anime": "jjk",
+      "name": "Satoru Gojo",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c16",
+      "anime": "onepiece",
+      "name": "Shanks",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c7",
+      "anime": "naruto",
+      "name": "Shikamaru Nara",
+      "score": 82,
+      "image": null
+    },
+    {
+      "id": "c49",
+      "anime": "bleach",
+      "name": "Sousuke Aizen",
+      "score": 99,
+      "image": null
+    },
+    {
+      "id": "c45",
+      "anime": "jjk",
+      "name": "Suguru Geto",
+      "score": 93,
+      "image": null
+    },
+    {
+      "id": "c84",
+      "anime": "demon",
+      "name": "Tanjiro Kamado",
+      "score": 88,
+      "image": null
+    },
+    {
+      "id": "c90",
+      "anime": "demon",
+      "name": "Tengen Uzui",
+      "score": 87,
+      "image": null
+    },
+    {
+      "id": "c42",
+      "anime": "jjk",
+      "name": "Toji Fushiguro",
+      "score": 94,
+      "image": null
+    },
+    {
+      "id": "c21",
+      "anime": "onepiece",
+      "name": "Tony Tony Chopper",
+      "score": 74,
+      "image": null
+    },
+    {
+      "id": "c53",
+      "anime": "bleach",
+      "name": "Toshiro Hitsugaya",
+      "score": 88,
+      "image": null
+    },
+    {
+      "id": "c15",
+      "anime": "onepiece",
+      "name": "Trafalgar Law",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c31",
+      "anime": "dragonball",
+      "name": "Trunks",
+      "score": 92,
+      "image": null
+    },
+    {
+      "id": "c9",
+      "anime": "naruto",
+      "name": "Tsunade",
+      "score": 85,
+      "image": null
+    },
+    {
+      "id": "c58",
+      "anime": "bleach",
+      "name": "Ulquiorra Cifer",
+      "score": 92,
+      "image": null
+    },
+    {
+      "id": "c20",
+      "anime": "onepiece",
+      "name": "Usopp",
+      "score": 72,
+      "image": null
+    },
+    {
+      "id": "c25",
+      "anime": "dragonball",
+      "name": "Vegeta",
+      "score": 98,
+      "image": null
+    },
+    {
+      "id": "c55",
+      "anime": "bleach",
+      "name": "Yoruichi Shihouin",
+      "score": 90,
+      "image": null
+    },
+    {
+      "id": "c39",
+      "anime": "jjk",
+      "name": "Yuji Itadori",
+      "score": 89,
+      "image": null
+    },
+    {
+      "id": "c38",
+      "anime": "jjk",
+      "name": "Yuta Okkotsu",
+      "score": 95,
+      "image": null
+    },
+    {
+      "id": "c78",
+      "anime": "aot",
+      "name": "Zeke Yeager",
+      "score": 91,
+      "image": null
+    },
+    {
+      "id": "c86",
+      "anime": "demon",
+      "name": "Zenitsu Agatsuma",
+      "score": 84,
+      "image": null
+    }
+  ]
+}
