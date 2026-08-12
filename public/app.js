@@ -251,6 +251,8 @@ async function loadRuntimeConfig(){
 async function verifyAdminAccess(key){
   try{
     const response=await fetch(backendUrl('/api/admin/verify'),{method:'POST',headers:key?{'X-Admin-Key':key}:{}});
+    const contentType=response.headers.get('content-type')||'';
+    if(!contentType.includes('application/json'))return {ok:false,error:'Backend Render da aggiornare: la verifica Admin non è ancora disponibile'};
     const data=await response.json().catch(()=>({}));
     return {ok:response.ok&&data?.ok,error:data?.error||'Verifica Admin non riuscita'};
   }catch(error){return {ok:false,error:'Server Admin non raggiungibile'}}
@@ -258,8 +260,8 @@ async function verifyAdminAccess(key){
 
 function requestAdminSecret(){
   return new Promise(resolve=>{
-    const modal=mountAdminModal(`<div class="admin-modal-head"><div><div class="eyebrow">Accesso protetto</div><h3>Area Admin</h3></div></div>
-      <div class="admin-secret-input"><input id="adminSecretInput" type="password" autocomplete="current-password" aria-label="ADMIN_SECRET" placeholder="••••••••"></div>
+    const modal=mountAdminModal(`<div class="admin-modal-head"><div><h3>Area Admin</h3></div></div>
+      <div class="admin-secret-input"><input id="adminSecretInput" type="password" autocomplete="current-password" aria-label="ADMIN_SECRET"></div>
       <div class="admin-modal-actions"><button class="secondary" id="cancelAdminAccess">ANNULLA</button><button class="primary" id="confirmAdminAccess">ACCEDI</button></div>`);
     const input=$('#adminSecretInput');
     let settled=false;
