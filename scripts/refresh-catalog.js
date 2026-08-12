@@ -17,7 +17,7 @@ const { loadCatalog, replaceCatalog, getPersistenceInfo } = require('../catalog-
 
 const ROOT = path.join(__dirname, '..');
 const DATA_PATHS = [path.join(ROOT, 'data', 'catalog.json'), path.join(ROOT, 'data', 'default-catalog.json')];
-const CATALOG_ASSET_ROOT = path.join(ROOT, 'assets', 'catalog');
+const CATALOG_ASSET_ROOT = path.join(ROOT, 'public', 'assets', 'catalog');
 
 const CATEGORIES = {
   naruto: { name: 'Naruto', malId: 20, accent: '#ff9138', logo: 'https://www.citypng.com/public/uploads/preview/naruto-shippuden-logo-transparent-background-701751694777597l432acg8r4.png?v=2026030511' },

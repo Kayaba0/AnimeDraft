@@ -16,6 +16,15 @@ const PORT = Number(process.env.PORT || 3000);
 const PLAYER_COLORS = ['#8b5cf6','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316'];
 const BOT_NAMES = ['Akira','Mika','Ren','Yuna','Kai','Sora','Nami','Rei'];
 const rooms = new Map();
+const PUBLIC_ROOT = path.join(__dirname, 'public');
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+function isAllowedOrigin(origin) {
+  return !origin || allowedOrigins.includes(origin);
+}
 
 const app = express();
 const server = http.createServer(app);
@@ -23,10 +32,27 @@ const io = new Server(server, {
   maxHttpBufferSize: 25 * 1024 * 1024,
   pingTimeout: 20000,
   pingInterval: 25000,
+  cors: {
+    origin(origin, callback) {
+      callback(isAllowedOrigin(origin) ? null : new Error('Origine non autorizzata'), isAllowedOrigin(origin));
+    },
+    methods: ['GET', 'POST'],
+  },
 });
 
 app.disable('x-powered-by');
 app.use(express.json({ limit: '30mb' }));
+app.use((req, res, next) => {
+  const origin = req.get('origin');
+  if (isAllowedOrigin(origin) && origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 
 function adminWriteAllowed(req) {
   const secret = process.env.ADMIN_SECRET;
@@ -103,7 +129,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(__dirname, {
+app.use(express.static(PUBLIC_ROOT, {
   etag: true,
   maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0,
   setHeaders(res, filePath) {
@@ -111,7 +137,7 @@ app.use(express.static(__dirname, {
   },
 }));
 app.get('/health', (_req, res) => res.json({ ok: true, rooms: rooms.size, uptime: Math.round(process.uptime()) }));
-app.use((_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.use((_req, res) => res.sendFile(path.join(PUBLIC_ROOT, 'index.html')));
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const cleanText = (value, max = 40) => String(value ?? '').trim().replace(/[<>]/g, '').slice(0, max);
@@ -621,11 +647,10 @@ setInterval(() => {
   }
 }, 60_000).unref();
 
-// Avvia un vero server HTTP sia in locale sia su Vercel: Socket.IO deve
-// agganciarsi allo stesso server per gestire stanze e link di invito.
+// Il backend persistente viene eseguito in locale e su Render.
 function startRealtimeServer(port = PORT) {
   server.listen(port, async () => {
-  console.log(`Anime Draft realtime server → http://localhost:${PORT}`);
+  console.log(`Anime Draft realtime server → http://localhost:${port}`);
   try {
     const persistence = await getPersistenceInfo();
     if (persistence.mode === 'neon') {
@@ -639,8 +664,6 @@ function startRealtimeServer(port = PORT) {
   });
 }
 
-// L'avvio locale resta invariato. Su Vercel l'entrypoint server.ts richiama
-// questa stessa funzione, mantenendo Socket.IO agganciato all'HTTP server.
 if (require.main === module) startRealtimeServer();
 
 module.exports = { app, server, startRealtimeServer };

@@ -223,8 +223,31 @@ const DEFAULT_ROSTER = [
 const CATALOG_STORAGE_KEY='animeDraft.catalog.v1';
 const IMAGE_CACHE_KEY='animeDraft.imageCache.v1';
 const ADMIN_KEY_STORAGE='animeDraft.adminKey.v1';
-let catalogPersistence={mode:'cache',durableForVercel:false,assetStorage:'cache'};
 let catalogSyncing=false;
+let backendBase='';
+
+function backendUrl(path=''){
+  const normalized=path&&path.startsWith('/')?path:(path?'/'+path:'');
+  return backendBase?backendBase+normalized:normalized;
+}
+
+async function loadRuntimeConfig(){
+  const localHost=['localhost','127.0.0.1'].includes(location.hostname);
+  if(localHost)return false;
+  try{
+    const response=await fetch('/api/config',{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const config=await response.json();
+    const candidate=String(config?.backendUrl||'').replace(/\/+$/,'');
+    if(!/^https:\/\/[^\s]+$/i.test(candidate))throw new Error('BACKEND_URL non valida');
+    backendBase=candidate;
+    return true;
+  }catch(error){
+    console.warn('Backend realtime non configurato.',error);
+    return false;
+  }
+}
+
 const cloneAnime=source=>Object.fromEntries(Object.entries(source).map(([key,value])=>[key,{...value}]));
 const cloneRoster=source=>source.map(card=>({...card}));
 let ANIME=cloneAnime(DEFAULT_ANIME);
@@ -273,10 +296,9 @@ async function fetchCatalogFromServer({rerender=false,silent=true}={}){
   if(catalogSyncing)return false;
   catalogSyncing=true;
   try{
-    const res=await fetch('/api/catalog',{cache:'no-store'});
+    const res=await fetch(backendUrl('/api/catalog'),{cache:'no-store'});
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const data=await res.json();
-    if(data?.persistence)catalogPersistence=data.persistence;
     if(data?.catalog)applyCatalogData(data.catalog,{rerender});
     return true;
   }catch(error){
@@ -291,13 +313,12 @@ function cacheCatalog(){
 }
 function applyAdminResult(data,{rerender=false}={}){
   if(data?.catalog)applyCatalogData(data.catalog,{rerender:false});
-  if(data?.persistence)catalogPersistence=data.persistence;
   cacheCatalog();
   if(rerender&&state.screen==='admin')renderAdmin();
   return data;
 }
 async function adminApi(path,{method='POST',body}={}){
-  const request=async key=>fetch(path,{method,headers:{'Content-Type':'application/json',...(key?{'X-Admin-Key':key}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{})});
+  const request=async key=>fetch(backendUrl(path),{method,headers:{'Content-Type':'application/json',...(key?{'X-Admin-Key':key}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{})});
   let key='';try{key=sessionStorage.getItem(ADMIN_KEY_STORAGE)||''}catch{}
   let res=await request(key);
   if(res.status===401){
@@ -867,10 +888,6 @@ function renderAdmin(){
   const key=state.admin.selectedCategory,category=ANIME[key];
   const cards=ROSTER.filter(c=>c.anime===key).sort((a,b)=>a.name.localeCompare(b.name,'it'));
   const totalCards=ROSTER.length;
-  const persistenceTitle=catalogPersistence.mode==='neon'?'Neon DB connesso':'Catalogo condiviso del server';
-  const persistenceNote=catalogPersistence.mode==='neon'
-    ?(catalogPersistence.assetWritable!==false?'Dati su Neon. Le immagini caricate dall’Admin vengono salvate in assets/uploads del progetto: dopo un upload fai commit/push per pubblicarle.':'Dati su Neon. Su Vercel la cartella del progetto è in sola lettura: gli upload immagine vanno preparati in locale e poi pubblicati con Git.')
-    :'Catalogo sul server locale. Le immagini caricate vengono salvate in assets/uploads del progetto.';
   app.innerHTML=minimalShell(`${topbar('Amministrazione','Gestione catalogo','Categorie e carte usate dal draft. Le modifiche vengono sincronizzate con il catalogo condiviso del sito.',`<span class="pill">${keys.length} categorie · ${totalCards} carte</span>`)}
     <div class="admin-page">
       <div class="admin-layout">
@@ -1089,7 +1106,9 @@ function initNetwork(){
     if(inviteCode)setTimeout(()=>toast('Apri il progetto tramite il server Node per usare il multiplayer'),300);
     return;
   }
-  const socket=window.io({reconnection:true,reconnectionDelay:600,reconnectionDelayMax:2500,timeout:6000});
+  const socket=backendBase
+    ? window.io(backendBase,{reconnection:true,reconnectionDelay:600,reconnectionDelayMax:2500,timeout:6000})
+    : window.io({reconnection:true,reconnectionDelay:600,reconnectionDelayMax:2500,timeout:6000});
   state.online.socket=socket;state.online.available=true;
   socket.on('connect',async()=>{
     state.online.connected=true;
@@ -1114,5 +1133,10 @@ function initNetwork(){
   render();
 }
 
-initNetwork();
-fetchCatalogFromServer({rerender:true,silent:true});
+async function bootstrap(){
+  await loadRuntimeConfig();
+  initNetwork();
+  fetchCatalogFromServer({rerender:true,silent:true});
+}
+
+bootstrap();

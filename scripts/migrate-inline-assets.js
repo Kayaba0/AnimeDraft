@@ -29,7 +29,7 @@ const { loadCatalog, updateCategory, updateCard, getPersistenceInfo } = require(
   }
 
   console.log(`Migrazione completata. Categorie: ${categories}, carte: ${cards}.`);
-  console.log(`Persistenza dati: ${info.mode}; asset: assets/uploads/.`);
+  console.log(`Persistenza dati: ${info.mode}; asset: public/assets/uploads/.`);
 })().catch(error => {
   console.error('Migrazione fallita:', error.message || error);
   process.exit(1);

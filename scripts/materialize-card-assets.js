@@ -13,7 +13,7 @@ const { loadCatalog, replaceCatalog, getPersistenceInfo } = require('../catalog-
 const ROOT = path.join(__dirname, '..');
 const CATALOG_PATH = path.join(ROOT, 'data', 'catalog.json');
 const DEFAULT_PATH = path.join(ROOT, 'data', 'default-catalog.json');
-const CARD_DIR = path.join(ROOT, 'assets', 'catalog', 'cards');
+const CARD_DIR = path.join(ROOT, 'public', 'assets', 'catalog', 'cards');
 const SOURCE_DIR = path.join(CARD_DIR, '.source');
 const JPEG_CONVERTER = path.join(__dirname, 'convert-to-jpg.ps1');
 

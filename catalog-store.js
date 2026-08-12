@@ -6,7 +6,7 @@ const path = require('path');
 const ROOT = __dirname;
 const DEFAULT_PATH = path.join(ROOT, 'data', 'default-catalog.json');
 const LOCAL_PATH = path.join(ROOT, 'data', 'catalog.json');
-const UPLOAD_ROOT = path.join(ROOT, 'assets', 'uploads');
+const UPLOAD_ROOT = path.join(ROOT, 'public', 'assets', 'uploads');
 
 let neonSql = null;
 let neonReady = false;
@@ -97,13 +97,9 @@ async function persistProjectAsset(value, folder, id, previousValue = null) {
   const decoded = dataUrlToBuffer(value);
   if (!decoded) return typeof value === 'string' ? value : null;
 
-  // Vercel Functions have a read-only deployment filesystem. Runtime uploads must be
-  // prepared locally and committed to GitHub, or moved to object storage in production.
-  if (process.env.VERCEL) {
-    const error = new Error('Su Vercel non è possibile salvare file nella cartella del progetto a runtime. Carica l’immagine in locale, fai commit/push su GitHub e ridistribuisci.');
-    error.code = 'READ_ONLY_DEPLOYMENT';
-    throw error;
-  }
+  // Le immagini modificate su Render vengono conservate in Neon come data URL:
+  // il filesystem del servizio non è uno storage persistente tra i deploy.
+  if (process.env.RENDER) return value;
 
   const ext = decoded.mime.includes('webp') ? 'webp'
     : decoded.mime.includes('png') ? 'png'
@@ -390,9 +386,7 @@ async function getPersistenceInfo() {
   const neon = Boolean(sql);
   return {
     mode: neon ? 'neon' : 'file',
-    durableForVercel: neon,
-    assetStorage: 'project-folder',
-    assetWritable: !Boolean(process.env.VERCEL),
+    assetStorage: process.env.RENDER ? 'neon-data-url' : 'project-folder',
   };
 }
 
