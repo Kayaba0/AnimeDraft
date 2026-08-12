@@ -256,12 +256,27 @@ async function verifyAdminAccess(key){
   }catch(error){return {ok:false,error:'Server Admin non raggiungibile'}}
 }
 
+function requestAdminSecret(){
+  return new Promise(resolve=>{
+    const modal=mountAdminModal(`<div class="admin-modal-head"><div><div class="eyebrow">Accesso protetto</div><h3>Area Admin</h3><p>Inserisci la chiave configurata sul server per continuare.</p></div></div>
+      <label>ADMIN_SECRET<input id="adminSecretInput" type="password" autocomplete="current-password" placeholder="••••••••"></label>
+      <div class="admin-modal-actions"><button class="secondary" id="cancelAdminAccess">ANNULLA</button><button class="primary" id="confirmAdminAccess">ACCEDI</button></div>`);
+    const input=$('#adminSecretInput');
+    let settled=false;
+    const close=value=>{if(settled)return;settled=true;modal.remove();resolve(value)};
+    $('#cancelAdminAccess').onclick=()=>close('');
+    $('#confirmAdminAccess').onclick=()=>close(input.value.trim());
+    input.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();close(input.value.trim())}if(event.key==='Escape')close('')};
+    modal.addEventListener('click',event=>{if(event.target===modal)close('')});
+  });
+}
+
 async function openAdmin(){
   let key='';try{key=sessionStorage.getItem(ADMIN_KEY_STORAGE)||''}catch{}
   let verified=key?await verifyAdminAccess(key):{ok:false};
   if(!verified.ok){
     try{sessionStorage.removeItem(ADMIN_KEY_STORAGE)}catch{}
-    const entered=prompt('Inserisci ADMIN_SECRET per aprire la sezione Admin:');
+    const entered=await requestAdminSecret();
     if(!entered)return;
     key=entered.trim();
     verified=await verifyAdminAccess(key);
