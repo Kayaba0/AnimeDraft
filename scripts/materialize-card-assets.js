@@ -91,7 +91,7 @@ async function main() {
   const persistence = await getPersistenceInfo();
   if (persistence.mode !== 'neon') throw new Error('DATABASE_URL non configurato: Neon non è disponibile.');
   const source = JSON.parse(await fs.readFile(CATALOG_PATH, 'utf8'));
-  if (source.roster.length !== 144) throw new Error('Il catalogo locale non contiene le 144 carte attese.');
+  if (!source.roster.length) throw new Error('Il catalogo locale non contiene carte.');
   await fs.mkdir(CARD_DIR, { recursive: true });
   const roster = await runLimited(source.roster, 6, downloadCard);
   const catalog = { anime: source.anime, roster };
@@ -104,7 +104,7 @@ async function main() {
 
   const payload = `${JSON.stringify(catalog, null, 2)}\n`;
   await Promise.all([fs.writeFile(CATALOG_PATH, payload, 'utf8'), fs.writeFile(DEFAULT_PATH, payload, 'utf8')]);
-  const appPath = path.join(ROOT, 'app.js');
+  const appPath = path.join(ROOT, 'public', 'app.js');
   const app = await fs.readFile(appPath, 'utf8');
   const nextApp = app.replace(/const DEFAULT_ANIME = \{[\s\S]*?(?=const CATALOG_STORAGE_KEY=)/, clientFallback(catalog));
   if (nextApp === app) throw new Error('Fallback del client non aggiornato.');

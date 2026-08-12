@@ -8,7 +8,8 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "migrate:assets": "node scripts/migrate-inline-assets.js",
-    "sync:catalog": "node scripts/refresh-catalog.js",
+    "sync:catalog": "node scripts/expand-catalog.js",
+    "expand:catalog": "node scripts/expand-catalog.js",
     "localize:cards": "node scripts/materialize-card-assets.js"
   },
   "engines": {
