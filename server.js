@@ -14,7 +14,6 @@ const {
 
 const PORT = Number(process.env.PORT || 3000);
 const PLAYER_COLORS = ['#8b5cf6','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899','#84cc16','#f97316'];
-const BOT_NAMES = ['Akira','Mika','Ren','Yuna','Kai','Sora','Nami','Rei'];
 const rooms = new Map();
 const PUBLIC_ROOT = path.join(__dirname, 'public');
 const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000')
@@ -232,9 +231,7 @@ function publicPlayer(player, room, revealScore = false) {
     team: player.team.map(card => publicCard(card, revealScore)),
     score: revealScore ? player.score : 0,
     lastBid: player.lastBid || 0,
-    isBot: Boolean(player.isBot),
-    botControlled: Boolean(player.botControlled),
-    connected: player.isBot ? true : Boolean(player.connected),
+    connected: Boolean(player.connected),
     host: player.id === room.hostPlayerId,
   };
 }
@@ -258,7 +255,8 @@ function snapshot(room) {
     passed: [...(room.passed || new Set())],
     timerLeft: room.timerLeft ?? room.settings.timer,
     round: room.round || 0,
-    draftTotal: room.draftTotal || room.settings.players * room.settings.teamSize,
+    draftTotal: room.draftTotal || room.players.length * room.settings.teamSize,
+    paused: Boolean(room.paused),
   };
 }
 
@@ -273,10 +271,8 @@ function notice(room, message) {
 
 function clearRoomTimers(room) {
   if (room.timerHandle) clearInterval(room.timerHandle);
-  if (room.botHandle) clearInterval(room.botHandle);
   if (room.transitionHandle) clearTimeout(room.transitionHandle);
   room.timerHandle = null;
-  room.botHandle = null;
   room.transitionHandle = null;
 }
 
@@ -290,23 +286,9 @@ function makeHuman(room, name, socket) {
     id: randomId('p'), token: randomToken(), socketId: socket.id,
     name: cleanText(name || 'Giocatore', 18), color: availableColor(room),
     budget: room.settings.budget, team: [], score: 0, lastBid: 0,
-    isBot: false, botControlled: false, connected: true,
+    connected: true,
     disconnectTimer: null,
   };
-}
-
-function addBotsToCapacity(room) {
-  const usedNames = new Set(room.players.map(p => p.name));
-  while (room.players.length < room.settings.players) {
-    const index = room.players.length;
-    const name = BOT_NAMES.find(n => !usedNames.has(n)) || `Bot ${index + 1}`;
-    usedNames.add(name);
-    room.players.push({
-      id: randomId('bot'), token: null, socketId: null, name,
-      color: availableColor(room), budget: room.settings.budget, team: [], score: 0, lastBid: 0,
-      isBot: true, botControlled: true, connected: true,
-    });
-  }
 }
 
 function maxAllowed(room, player) {
@@ -320,6 +302,7 @@ function eligiblePlayers(room) {
 
 function placeBid(room, player, amount) {
   if (room.phase !== 'auction' || room.resolving) return { ok: false, error: 'Asta non disponibile' };
+  if (room.paused) return { ok: false, error: 'Asta in pausa: attesa della riconnessione di un giocatore' };
   if (room.passed.has(player.id)) return { ok: false, error: 'Hai già passato questo round' };
   if (player.team.length >= room.settings.teamSize) return { ok: false, error: 'La tua squadra è completa' };
   if (amount <= room.currentBid) return { ok: false, error: 'La puntata deve essere superiore' };
@@ -340,31 +323,6 @@ function checkEarlyEnd(room) {
   else if (room.leaderId === null && eligible.length === 0) resolveAuction(room);
 }
 
-function botTick(room) {
-  if (room.phase !== 'auction' || room.resolving) return;
-  const bots = shuffle(room.players.filter(p => (p.isBot || p.botControlled) && !room.passed.has(p.id) && p.team.length < room.settings.teamSize));
-  for (const p of bots) {
-    if (Math.random() > .46) continue;
-    const scarcity = (room.settings.teamSize - p.team.length) / room.settings.teamSize;
-    const ideal = (room.current.score / room.settings.budget) * 32 + scarcity * 5;
-    const personality = ((room.players.indexOf(p) + 1) * 1.9) % 7 + (Math.random() * 10 - 5);
-    const willingness = Math.round(clamp(ideal + personality, 5, maxAllowed(room, p)));
-    const min = room.currentBid ? room.currentBid + 1 : 1;
-    if (min <= willingness) {
-      const jump = Math.random() < .2 ? 5 : 1;
-      const bid = Math.min(willingness, room.currentBid ? room.currentBid + jump : jump);
-      placeBid(room, p, bid);
-      return;
-    }
-    if (room.currentBid > 0 && Math.random() < .55) {
-      room.passed.add(p.id);
-      broadcast(room);
-      checkEarlyEnd(room);
-      return;
-    }
-  }
-}
-
 function startAuctionTimers(room) {
   clearRoomTimers(room);
   room.timerHandle = setInterval(() => {
@@ -377,7 +335,6 @@ function startAuctionTimers(room) {
     }
     broadcast(room);
   }, 1000);
-  room.botHandle = setInterval(() => botTick(room), 720);
 }
 
 function randomFillRemaining(room, reason = 'fine-pool') {
@@ -400,6 +357,10 @@ function randomFillRemaining(room, reason = 'fine-pool') {
 
 function nextAuction(room) {
   room.resolving = false;
+  if (room.paused) {
+    broadcast(room);
+    return;
+  }
   const active = eligiblePlayers(room);
   if (!active.length) return finishGame(room);
   if (active.length === 1) return randomFillRemaining(room, 'single-player');
@@ -458,8 +419,7 @@ function finishGame(room) {
 
 function startRoomGame(room) {
   if (room.phase !== 'lobby') return { ok: false, error: 'La partita è già iniziata' };
-  addBotsToCapacity(room);
-  const needed = room.settings.players * room.settings.teamSize;
+  const needed = room.players.length * room.settings.teamSize;
   if (room.roster.length < needed) return { ok: false, error: `Pool insufficiente: servono almeno ${needed} carte` };
   room.players.forEach((p, index) => {
     p.color = PLAYER_COLORS[index % PLAYER_COLORS.length];
@@ -484,7 +444,17 @@ function startRoomGame(room) {
 }
 
 function findPlayerBySocket(room, socket) {
-  return room.players.find(p => p.socketId === socket.id && !p.isBot);
+  return room.players.find(p => p.socketId === socket.id);
+}
+
+function resumeAuctionWhenEveryoneReturns(room) {
+  if (!room.paused || room.phase !== 'auction' || room.players.some(player => !player.connected)) return;
+  room.paused = false;
+  notice(room, 'Tutti i giocatori sono di nuovo connessi: l’asta riprende.');
+  broadcast(room);
+  if (room.resolving) return;
+  if (room.current) startAuctionTimers(room);
+  else nextAuction(room);
 }
 
 function leaveSocketRoom(socket, explicit = false) {
@@ -497,7 +467,7 @@ function leaveSocketRoom(socket, explicit = false) {
   socket.leave(code);
   socket.data.roomCode = null;
   socket.data.playerId = null;
-  if (!player || player.isBot) return;
+  if (!player) return;
 
   player.socketId = null;
   player.connected = false;
@@ -507,16 +477,19 @@ function leaveSocketRoom(socket, explicit = false) {
       if (player.connected || room.phase !== 'lobby') return;
       room.players = room.players.filter(p => p.id !== player.id);
       if (room.hostPlayerId === player.id) {
-        const nextHost = room.players.find(p => !p.isBot && p.connected);
-        room.hostPlayerId = nextHost?.id || room.players.find(p => !p.isBot)?.id || null;
+        const nextHost = room.players.find(p => p.connected);
+        room.hostPlayerId = nextHost?.id || room.players[0]?.id || null;
       }
-      if (!room.players.some(p => !p.isBot)) {
+      if (!room.players.length) {
         clearRoomTimers(room);
         rooms.delete(room.code);
       } else broadcast(room);
-    }, explicit ? 500 : 15000);
-  } else if (room.phase === 'auction') {
-    player.botControlled = true;
+    }, explicit ? 500 : 5 * 60 * 1000);
+  } else if (room.phase === 'auction' && !explicit) {
+    room.paused = true;
+    if (room.timerHandle) clearInterval(room.timerHandle);
+    room.timerHandle = null;
+    notice(room, `${player.name} si è disconnesso: l’asta è in pausa.`);
     broadcast(room);
   }
 }
@@ -539,7 +512,7 @@ io.on('connection', socket => {
         resolvedUniverses, resolvedRandomUniverseCount: Number(payload.resolvedRandomUniverseCount) || resolvedUniverses.length,
         players: [], hostPlayerId: null, deck: [], unassignedCards: [], current: null,
         currentBid: 0, leaderId: null, lastBidderId: null, passed: new Set(), timerLeft: settings.timer,
-        round: 0, draftTotal: needed, resolving: false, timerHandle: null, botHandle: null, transitionHandle: null,
+        round: 0, draftTotal: needed, resolving: false, paused: false, timerHandle: null, transitionHandle: null,
         createdAt: Date.now(), updatedAt: Date.now(),
       };
       const host = makeHuman(room, payload.name, socket);
@@ -584,7 +557,7 @@ io.on('connection', socket => {
     const code = cleanText(payload.roomCode, 6).toUpperCase();
     const room = rooms.get(code);
     if (!room) return ack({ ok: false, error: 'Stanza non più disponibile' });
-    const player = room.players.find(p => !p.isBot && p.token === payload.token);
+    const player = room.players.find(p => p.token === payload.token);
     if (!player) return ack({ ok: false, error: 'Sessione non valida' });
     if (player.disconnectTimer) clearTimeout(player.disconnectTimer);
     if (player.socketId && player.socketId !== socket.id) {
@@ -593,12 +566,12 @@ io.on('connection', socket => {
     }
     player.socketId = socket.id;
     player.connected = true;
-    player.botControlled = false;
     socket.join(code);
     socket.data.roomCode = code;
     socket.data.playerId = player.id;
     ack({ ok: true, roomCode: code, playerId: player.id, name: player.name, snapshot: snapshot(room) });
     socket.to(code).emit('room:snapshot', snapshot(room));
+    resumeAuctionWhenEveryoneReturns(room);
   });
 
   socket.on('room:start', (payload = {}, ack = () => {}) => {
@@ -627,6 +600,7 @@ io.on('connection', socket => {
     const code = cleanText(payload.roomCode, 6).toUpperCase();
     const room = rooms.get(code);
     if (!room || room.phase !== 'auction') return ack({ ok: false, error: 'Asta non disponibile' });
+    if (room.paused) return ack({ ok: false, error: 'Asta in pausa: attesa della riconnessione di un giocatore' });
     const player = findPlayerBySocket(room, socket);
     if (!player) return ack({ ok: false, error: 'Giocatore non riconosciuto' });
     if (room.passed.has(player.id)) return ack({ ok: false, error: 'Hai già passato' });
@@ -647,8 +621,8 @@ io.on('connection', socket => {
 setInterval(() => {
   const now = Date.now();
   for (const [code, room] of rooms) {
-    const connectedHumans = room.players.some(p => !p.isBot && p.connected);
-    if (!connectedHumans && now - room.updatedAt > 10 * 60 * 1000) {
+    const connectedPlayers = room.players.some(p => p.connected);
+    if (!connectedPlayers && now - room.updatedAt > 10 * 60 * 1000) {
       clearRoomTimers(room);
       rooms.delete(code);
     }

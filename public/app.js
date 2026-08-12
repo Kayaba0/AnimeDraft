@@ -387,7 +387,7 @@ const state = {
   screen:'home',
   settings:{playerName:'Giocatore 1',players:4,teamSize:5,budget:100,timer:5,hiddenScore:true,synergies:false,mode:'all',randomUniverseCount:Math.min(4,Object.keys(ANIME).length),randomUniverseCountAuto:false,universes:Object.keys(ANIME)},
   players:[], deck:[], current:null, currentBid:0, leaderId:null, lastBidderId:null,
-  passed:new Set(), timerLeft:5, timerHandle:null, botHandle:null, round:0,
+  passed:new Set(), timerLeft:5, timerHandle:null, round:0, paused:false,
   roomCode:'', apiLoaded:new Set(), gameOver:false, resolvedUniverses:[], resolvedRandomUniverseCount:0, unassignedCards:[], draftTotal:0,
   resolving:false, transitionHandle:null, admin:{selectedCategory:Object.keys(ANIME)[0]||null,cardEditorId:null},
   online:{socket:null,available:false,connected:false,mode:null,roomCode:'',playerId:null,token:null,isHost:false,pendingRoom:'',joining:false}
@@ -415,7 +415,7 @@ function shell(content,active='play'){
     <button data-nav="ranking"><i>⌁</i>Classifica</button>
     <button data-nav="rules"><i>?</i>Come giocare</button>
     <button class="${active==='admin'?'active':''}" data-nav="admin"><i>⚙</i>Admin</button>
-  </div><div class="profile"><span class="profile-dot" style="--pc:${color}"></span><div><b>${esc(name)}</b><small>${state.online.mode==='online'?(state.online.connected?'Online · realtime':'Riconnessione…'):'Modalità test locale'}</small></div></div></aside><section class="content">${content}</section></div>`;
+  </div><div class="profile"><span class="profile-dot" style="--pc:${color}"></span><div><b>${esc(name)}</b><small>${state.online.connected?'Online · realtime':'Riconnessione…'}</small></div></div></aside><section class="content">${content}</section></div>`;
 }
 function minimalShell(content){
   return `<div class="shell shell-minimal"><button class="brand brand-button brand-minimal" data-nav="home" aria-label="Torna alla Home"><span>ANIME</span>DRAFT</button><section class="content content-minimal">${content}</section></div>`;
@@ -567,7 +567,7 @@ function renderCreate(){
     state.resolvedUniverses=resolved;
     await hydrateImages(resolved);
     if(state.online.connected){await createOnlineRoom(resolved);return}
-    state.online.mode='local';state.roomCode=roomCode();preparePlayers();state.screen='lobby';render();toast('Server realtime non disponibile: avvio in modalità test locale');
+    toast('Server realtime non disponibile: riprova quando la connessione sarà attiva');
   };
 }
 
@@ -588,24 +588,20 @@ function renderJoinRoom(){
   $('#joinPlayerName').oninput=e=>state.settings.playerName=e.target.value.slice(0,18);
   $('#joinRoomBtn').onclick=async()=>{const room=$('#joinRoomCode').value.trim().toUpperCase(),name=$('#joinPlayerName').value.trim();if(!room)return toast('Inserisci il codice stanza');if(!name)return toast('Inserisci il tuo nome');state.settings.playerName=name;await joinOnlineRoom(room,name)};
 }
-function preparePlayers(){
-  const botNames=['Akira','Mika','Ren','Yuna','Kai','Sora','Nami'];
-  state.players=Array.from({length:state.settings.players},(_,i)=>({id:i,name:i===0?state.settings.playerName:botNames[i-1],human:i===0,isBot:i!==0,connected:true,color:PLAYER_COLORS[i],budget:state.settings.budget,team:[],passed:false,score:0,lastBid:0}));
-}
 function playerRow(p){
-  const role=p.isBot?'TEST':p.human?'TU':p.host?'HOST':'ONLINE';
-  const sub=p.isBot?'Giocatore di test':p.connected===false?'Disconnesso temporaneamente':p.host?'Host della stanza':'Giocatore online';
+  const role=p.human?'TU':p.host?'HOST':'ONLINE';
+  const sub=p.connected===false?'Disconnesso temporaneamente':p.host?'Host della stanza':'Giocatore online';
   return `<div class="player-row color-player ${p.connected===false?'offline-player':''}" style="--pc:${p.color}"><div class="avatar">${initials(p.name)}</div><div class="grow"><b>${esc(p.name)}</b><small>${sub}</small></div><span class="color-chip"><i></i>${role}</span><span class="ready">${p.connected===false?'OFFLINE':'PRONTO'}</span></div>`
 }
 function renderLobby(){
   const randomLabel=state.settings.randomUniverseCountAuto
     ? 'Numero di universi casuale'
     : `${state.resolvedRandomUniverseCount||state.settings.randomUniverseCount} universi casuali`;
-  const online=state.online.mode==='online';
-  const invite=online?inviteUrl(state.roomCode):'';
-  const humanCount=online?state.players.filter(p=>!p.isBot).length:state.players.length;
+  const online=true;
+  const invite=inviteUrl(state.roomCode);
+  const humanCount=state.players.length;
   const target=state.settings.players;
-  const host=online?state.online.isHost:true;
+  const host=state.online.isHost;
   const universesKnown=state.settings.mode!=='random';
   app.innerHTML=minimalShell(`${topbar('Stanza '+state.roomCode,'Lobby pronta',online?'La stanza è online: condividi il link e gli amici compariranno qui in tempo reale.':'Modalità di test locale.',`<span class="pill online-pill ${online&&state.online.connected?'connected':''}">${online?'● REALTIME':'LOCALE'} · ${state.roomCode}</span>`)}
   <div class="lobby-grid lobby-stack-v5">
@@ -619,19 +615,9 @@ function renderLobby(){
   if($('#startGame'))$('#startGame').onclick=()=>startGame();
 }
 async function startGame(){
-  if(state.online.mode==='online'){
-    if(!state.online.isHost)return toast('Solo l’host può avviare il draft');
-    const result=await emitAck('room:start',{roomCode:state.roomCode});
-    if(!result?.ok)toast(result?.error||'Impossibile avviare il draft');
-    return;
-  }
-  const needed=draftCardCount();
-  const universes=state.resolvedUniverses.length?state.resolvedUniverses:resolvedUniverseKeys();
-  const pool=ROSTER.filter(c=>universes.includes(c.anime));
-  if(pool.length<needed){toast('Pool ridotto: aggiungi più universi');return}
-  state.resolvedUniverses=universes;
-  state.deck=shuffle(pool).slice(0,needed);
-  state.unassignedCards=[];state.draftTotal=needed;state.round=0;state.gameOver=false;state.resolving=false;state.screen='auction';nextAuction();
+  if(!state.online.isHost)return toast('Solo l’host può avviare il draft');
+  const result=await emitAck('room:start',{roomCode:state.roomCode});
+  if(!result?.ok)toast(result?.error||'Impossibile avviare il draft');
 }
 function eligiblePlayers(){return state.players.filter(p=>p.team.length<state.settings.teamSize)}
 function remainingOpenSlots(){return state.players.reduce((n,p)=>n+Math.max(0,state.settings.teamSize-p.team.length),0)}
@@ -672,7 +658,7 @@ function renderAuction(full=false){
         </div>
 
         <div class="auction-center-v5">
-          <div class="auction-card-zone auction-card-zone-v5"><div class="auction-card-label"><span>CARTA ALL'ASTA</span><b>${esc(ANIME[state.current.anime].name)}</b></div><div id="currentStamp" class="auction-card-modern auction-card-modern-v5">${characterCard(state.current,{score:!state.settings.hiddenScore})}</div></div>
+          <div class="auction-card-zone auction-card-zone-v5"><div id="currentStamp" class="auction-card-modern auction-card-modern-v5">${characterCard(state.current,{score:!state.settings.hiddenScore})}</div></div>
 
           <div class="bid-deck-v5 bid-deck-v7">
             <div class="bid-focus-v7">
@@ -723,13 +709,13 @@ function updateAuctionDOM(){
   if($('#myTeamCount'))$('#myTeamCount').textContent=human.team.length;
   const min=state.currentBid?state.currentBid+1:1,reserve=Math.max(0,state.settings.teamSize-human.team.length-1),maxBid=human.budget-reserve;
   if($('#nextBidValue'))$('#nextBidValue').textContent=`Prossima: ${min}`;
-  const blocked=state.passed.has(human.id)||human.team.length>=state.settings.teamSize;
+  const blocked=state.paused||state.passed.has(human.id)||human.team.length>=state.settings.teamSize;
   if($('#bid1')){$('#bid1').disabled=blocked||min>maxBid;$('#bid5').disabled=blocked||(state.currentBid?state.currentBid+5:5)>maxBid;$('#pass').disabled=blocked}
-  if($('#auctionHint'))$('#auctionHint').textContent=state.passed.has(human.id)?'Hai passato: ora puoi seguire il duello tra gli altri giocatori.':state.leaderId===human.id?'Sei in testa: difendi l’offerta fino allo zero.':'';
+  if($('#auctionHint'))$('#auctionHint').textContent=state.paused?'Asta in pausa: in attesa della riconnessione di un giocatore.':state.passed.has(human.id)?'Hai passato: ora puoi seguire il duello tra gli altri giocatori.':state.leaderId===human.id?'Sei in testa: difendi l’offerta fino allo zero.':'';
   updateAuctionTimerDOM();
 }
-function humanBid(step){if(state.online.mode==='online'){emitAck('auction:bid',{roomCode:state.roomCode,step}).then(r=>{if(!r?.ok&&r?.error)toast(r.error)});return}const p=state.players.find(x=>x.human);if(!p||state.passed.has(p.id))return;const next=state.currentBid===0?(step===1?1:5):state.currentBid+step;placeBid(p,next)}
-function humanPass(){if(state.online.mode==='online'){emitAck('auction:pass',{roomCode:state.roomCode}).then(r=>{if(!r?.ok&&r?.error)toast(r.error)});return}const p=state.players.find(x=>x.human);if(!p)return;state.passed.add(p.id);toast('Hai passato per questa carta');updateAuctionDOM();checkEarlyEnd()}
+function humanBid(step){emitAck('auction:bid',{roomCode:state.roomCode,step}).then(r=>{if(!r?.ok&&r?.error)toast(r.error)})}
+function humanPass(){emitAck('auction:pass',{roomCode:state.roomCode}).then(r=>{if(!r?.ok&&r?.error)toast(r.error)})}
 function maxAllowed(p){const remainingSlots=state.settings.teamSize-p.team.length;return p.budget-Math.max(0,remainingSlots-1)}
 function placeBid(p,amount){
   if(state.passed.has(p.id)||p.team.length>=state.settings.teamSize)return false;
@@ -742,26 +728,15 @@ function updateAuctionTimerDOM(){
   if(text)text.textContent=state.timerLeft;
   if(ring){ring.style.setProperty('--progress',`${(state.timerLeft/state.settings.timer)*100}%`);ring.classList.toggle('urgent',state.timerLeft<=2)}
 }
-function startAuctionTimers(){if(state.online.mode==='online')return;clearTimers();state.timerHandle=setInterval(()=>{state.timerLeft--;updateAuctionTimerDOM();if(state.timerLeft<=0)resolveAuction()},1000);state.botHandle=setInterval(botTick,720)}
-function clearTimers(){if(state.timerHandle)clearInterval(state.timerHandle);if(state.botHandle)clearInterval(state.botHandle);if(state.transitionHandle)clearTimeout(state.transitionHandle);state.timerHandle=null;state.botHandle=null;state.transitionHandle=null}
-function botTick(){
-  if(state.online.mode==='online'||state.screen!=='auction')return;
-  const bots=shuffle(state.players.filter(p=>!p.human&&!state.passed.has(p.id)&&p.team.length<state.settings.teamSize));
-  for(const p of bots){if(Math.random()>.46)continue;const scarcity=(state.settings.teamSize-p.team.length)/state.settings.teamSize;const ideal=(state.current.score/state.settings.budget)*32+scarcity*5;const personality=(p.id*1.9)%7+(Math.random()*10-5);const willingness=Math.round(clamp(ideal+personality,5,maxAllowed(p)));const min=state.currentBid?state.currentBid+1:1;if(min<=willingness){const jump=Math.random()<.2?5:1;placeBid(p,Math.min(willingness,state.currentBid?state.currentBid+jump:jump));return}else if(state.currentBid>0&&Math.random()<.55){state.passed.add(p.id);updateAuctionDOM();checkEarlyEnd();return}}
-}
+function clearTimers(){if(state.timerHandle)clearInterval(state.timerHandle);if(state.transitionHandle)clearTimeout(state.transitionHandle);state.timerHandle=null;state.transitionHandle=null}
 function checkEarlyEnd(){const eligible=eligiblePlayers().filter(p=>!state.passed.has(p.id));if(state.leaderId!==null&&eligible.length===1&&eligible[0].id===state.leaderId)resolveAuction();else if(state.leaderId===null&&eligible.length===0)resolveAuction()}
 function resolveAuction(){if(state.resolving)return;state.resolving=true;clearTimers();if(state.leaderId!==null){const w=state.players.find(p=>p.id===state.leaderId);w.budget-=state.currentBid;w.team.push(state.current);toast(`${state.current.name} → ${w.name} per ${state.currentBid} crediti`)}else{state.unassignedCards.push(state.current);toast(`${state.current.name} resta nel pool casuale`)}state.transitionHandle=setTimeout(()=>nextAuction(),900)}
 function finishGame(){clearTimers();state.players.forEach(p=>{const base=p.team.reduce((s,c)=>s+c.score,0);let bonus=0;if(state.settings.synergies){const counts={};p.team.forEach(c=>counts[c.anime]=(counts[c.anime]||0)+1);bonus=Object.values(counts).reduce((b,n)=>b+(n>=3?8:0),0)}p.score=base+bonus});state.players.sort((a,b)=>b.score-a.score);state.screen='results';render()}
 function renderResults(){
   const winner=state.players[0];
-  const online=state.online.mode==='online';
-  app.innerHTML=shell(`${topbar('Draft completato','Risultati finali',`Vincitore: ${esc(winner.name)} con ${winner.score} punti. Ora tutti i valori vengono rivelati.`,`<span class="pill ${online?'online-pill connected':''}">${online?'● REALTIME · ':''}${state.round} aste</span>`)}<div class="results-grid">${state.players.map((p,i)=>`<article class="result-card ${i===0?'winner':''}" style="--pc:${p.color}"><div class="result-head"><div class="rank-block"><div class="rank">${i+1}°</div><span class="result-color"></span><h3>${esc(p.name)}</h3></div><div class="result-score">${p.score}<small> PT</small></div></div><div class="result-team">${p.team.map(c=>characterCard(c,{score:true,mini:true})).join('')}</div><div class="score-strip">${p.team.map(c=>`<span class="score-chip">${esc(c.name.split(' ')[0])} · ${c.score}</span>`).join('')}</div></article>`).join('')}</div><div class="actions">${online?`<button class="secondary" id="onlineHome">TORNA ALLA HOME</button>${state.online.isHost?'<button class="primary" id="onlineNewRoom">CREA NUOVA STANZA</button>':''}`:'<button class="secondary" id="newSetup">NUOVA CONFIGURAZIONE</button><button class="primary" id="rematch">RIVINCITA</button>'}</div>`);
-  if(online){
-    $('#onlineHome').onclick=()=>{leaveOnlineRoom();clearInviteFromUrl();state.screen='home';render()};
-    if($('#onlineNewRoom'))$('#onlineNewRoom').onclick=()=>{leaveOnlineRoom();clearInviteFromUrl();state.screen='create';render()};
-  }else{
-    $('#newSetup').onclick=()=>{state.screen='create';render()};$('#rematch').onclick=()=>{preparePlayers();startGame()};
-  }
+  app.innerHTML=shell(`${topbar('Draft completato','Risultati finali',`Vincitore: ${esc(winner.name)} con ${winner.score} punti. Ora tutti i valori vengono rivelati.`,`<span class="pill online-pill connected">● REALTIME · ${state.round} aste</span>`)}<div class="results-grid">${state.players.map((p,i)=>`<article class="result-card ${i===0?'winner':''}" style="--pc:${p.color}"><div class="result-head"><div class="rank-block"><div class="rank">${i+1}°</div><span class="result-color"></span><h3>${esc(p.name)}</h3></div><div class="result-score">${p.score}<small> PT</small></div></div><div class="result-team">${p.team.map(c=>characterCard(c,{score:true,mini:true})).join('')}</div><div class="score-strip">${p.team.map(c=>`<span class="score-chip">${esc(c.name.split(' ')[0])} · ${c.score}</span>`).join('')}</div></article>`).join('')}</div><div class="actions"><button class="secondary" id="onlineHome">TORNA ALLA HOME</button>${state.online.isHost?'<button class="primary" id="onlineNewRoom">CREA NUOVA STANZA</button>':''}</div>`);
+  $('#onlineHome').onclick=()=>{leaveOnlineRoom();clearInviteFromUrl();state.screen='home';render()};
+  if($('#onlineNewRoom'))$('#onlineNewRoom').onclick=()=>{leaveOnlineRoom();clearInviteFromUrl();state.screen='create';render()};
 }
 function renderRules(){
   app.innerHTML=shell(`${topbar('Regole','Come si gioca','Tre azioni: rilancia, passa, gestisci il budget. Il resto deve essere leggibile a colpo d’occhio.')}<div class="grid-2"><div class="glass"><h3 class="section-title">Obiettivo</h3><p>Ogni giocatore parte con lo stesso budget e deve ottenere <b>5 personaggi</b>. Il draft contiene esattamente <b>5 carte per giocatore</b> e ogni carta viene proposta una sola volta.</p><p>Durante l'asta usa <b>+1</b>, <b>+5</b> oppure <b>PASSA</b>. Se passi non puoi rientrare nell'asta di quella carta.</p><p>Le carte rimaste senza acquirente vengono assegnate <b>casualmente a 1 credito</b> a chi ha ancora slot vuoti. Se resta un solo giocatore incompleto, le aste si fermano e riceve casualmente le carte residue: non può scegliere le migliori a prezzo minimo.</p><p>Ogni giocatore ha un <b>colore personale</b>: durante l'asta lo stesso colore identifica puntate, leader e rilanci.</p></div><div class="glass"><h3 class="section-title">Vittoria</h3><p>In modalità Standard non vengono mostrati né grado né punteggio: devi valutare il personaggio senza aiuti.</p><p>Alla fine del draft tutti i punteggi vengono rivelati e sommati. Vince il totale più alto.</p><div class="actions"><button class="primary" id="goCreate">CREA PARTITA</button></div></div></div>`);
@@ -1083,7 +1058,7 @@ function applyRoomSnapshot(snapshot){
   state.players=(snapshot.players||[]).map(p=>({...p,human:p.id===state.online.playerId}));
   state.passed=new Set(snapshot.passed||[]);
   state.current=snapshot.current||null;state.currentBid=snapshot.currentBid||0;state.leaderId=snapshot.leaderId??null;state.lastBidderId=snapshot.lastBidderId??null;
-  state.timerLeft=snapshot.timerLeft??state.settings.timer;state.round=snapshot.round||0;state.draftTotal=snapshot.draftTotal||draftCardCount();
+  state.timerLeft=snapshot.timerLeft??state.settings.timer;state.round=snapshot.round||0;state.draftTotal=snapshot.draftTotal||draftCardCount();state.paused=Boolean(snapshot.paused);
   if(snapshot.phase==='lobby'){
     if(prevScreen!=='lobby'||document.activeElement?.tagName!=='INPUT'){state.screen='lobby';render()}
     return;
